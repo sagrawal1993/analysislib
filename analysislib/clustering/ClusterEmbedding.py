@@ -5,11 +5,6 @@ This will contains code to create the representation of the cluster based on the
 Consider all the vectors to be an numpy array.
 """
 
-def getClusterEmbeddingFromPoints(method_name="centroid", param_map = {}):
-    if method_name == "weightedCentroid":
-        return WeightedCentroid()
-    return Centroid()
-
 class AbstractClusterEmbedding:
     def __init__(self):
         pass

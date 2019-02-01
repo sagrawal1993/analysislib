@@ -10,7 +10,7 @@ class ApriyorAlgorithm:
     def getRule(self, records, min_support=0.0045, min_confidence=0.2, min_lift=3, max_length=3):
         self.association_rules = apriori(records, min_support=min_support, min_confidence=min_confidence, min_lift=min_lift, max_length=max_length)
 
-        print(self.association_rules)
+        #print(self.association_rules)
         for item in self.association_rules:
 
             print(item)
