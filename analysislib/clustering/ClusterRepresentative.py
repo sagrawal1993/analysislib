@@ -22,12 +22,14 @@ def closer_to_centroid(vector_list, distance, normalize=True):
     for i, vector in enumerate(vector_list):
         score = distance(vector, centroid)
         sum_score += score
-        score_index.append(score, i)
+        score_index.append((score, i))
     score_index.sort(reverse=True)
+    final_list = []
     if normalize and sum_score > 0:
         for score_tuple in score_index:
-            score_tuple[0] /= sum_score
-    return score_index
+            norm_score = score_tuple[0] / sum_score
+            final_list.append((norm_score, score_tuple[1]))
+    return final_list
 
 
 def closer_to_given_vector(vector_list, representative, distance, normalize=True):
@@ -51,9 +53,11 @@ def closer_to_given_vector(vector_list, representative, distance, normalize=True
     for i, vector in enumerate(vector_list):
         score = distance(vector, representative)
         sum_score += score
-        score_index.append(score, i)
+        score_index.append((score, i))
     score_index.sort(reverse=True)
+    final_list = []
     if normalize and sum_score > 0:
         for score_tuple in score_index:
-            score_tuple[0] /= sum_score
-    return score_index
+            norm_score = score_tuple[0] / sum_score
+            final_list.append((norm_score, score_tuple[1]))
+    return final_list 
