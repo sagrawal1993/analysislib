@@ -1,7 +1,7 @@
 from distutils.core import setup
 setup(
     name = "analysislib",
-    packages = ["analysislib", "analysislib.clustering", "analysislib.datamining", "analysislib.optimization"],
+    packages = ["analysislib", "analysislib.clustering", "analysislib.datamining", "analysislib.optimization", "analysislib.ranking"],
     version = "0.0.2",
     description = "General function required for personal uses.",
     author = "Suraj Agrawal",
