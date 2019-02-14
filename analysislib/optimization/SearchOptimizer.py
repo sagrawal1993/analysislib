@@ -1,3 +1,5 @@
+from concurrent.futures import ThreadPoolExecutor
+
 class AbstracSearchOptimizer:
     def maximize(self, cost_function, args):
         pass
@@ -10,13 +12,14 @@ class AbstracSearchOptimizer:
 
 class GridSearch:
 
-    def __init__(self, param_min, param_max, step_size):
+    def __init__(self, param_min, param_max, step_size, thread=True):
         if len(param_max) != len(param_min):
             print("Unequal number of parameters")
         self.num_param = len(param_min)
         self.param_min = param_min
         self.param_max = param_max
         self.step_size = step_size
+        self.thread = thread
 
     def maximize(self, cost_function, args):
         if self.num_param == 2:
@@ -29,6 +32,9 @@ class GridSearch:
         return None
 
     def __traverse_grid_2_param(self, cost_function, args):
+        if self.thread:
+            executor = ThreadPoolExecutor(max_workers=15)
+            future_result = []
         full_map = {}
         param_a = self.param_min[0]
         while param_a <= self.param_max[0]:
@@ -36,11 +42,31 @@ class GridSearch:
                 full_map[str(param_a)] = {}
             param_b = self.param_min[1]
             while param_b <= self.param_max[1]:
-                full_map[str(param_a)][str(param_b)] = cost_function([param_a, param_b], args)
+                if self.thread:
+                    th_param = {}
+                    th_param['func'] = cost_function
+                    th_param['param'] = [param_a, param_b]
+                    th_param['args'] = args
+                    future = executor.submit(self.__traverse_multithread, th_param)
+                    future_result.append(future)
+                else:
+                    full_map[str(param_a)][str(param_b)] = cost_function([param_a, param_b], args)
                 param_b += self.step_size
                 print(param_a, param_b)
             param_a += self.step_size
+
+        if self.thread:
+            for future in future_result:
+                param, map = future.result()
+                full_map[str(param[0])][str(param[1])] = map
         return full_map
+
+    def __traverse_multithread(self, param_map):
+        func = param_map['func']
+        param = param_map['param']
+        args = param_map['args']
+        map = func(param, args)
+        return param, map
 
     def __2_paramterter_maximum(self, cost_function, args):
         param_a = self.param_min[0]
