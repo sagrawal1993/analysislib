@@ -21,9 +21,9 @@ class AbstractClusterEmbedding:
 
 
 class Centroid(AbstractClusterEmbedding):
-    def __init__(self, vector_dimension):
-        super.__init__()
-        self.dim = vector_dimension
+    def __init__(self, dim):
+        super().__init__()
+        self.dim = dim
 
     def getClusterRepresentation(self, vector_list, param_map={}):
         emb = np.zeros(self.dim)
@@ -34,9 +34,9 @@ class Centroid(AbstractClusterEmbedding):
         return emb
 
 class WeightedCentroid(AbstractClusterEmbedding):
-    def __init__(self, vector_dimension):
-        super.__init__()
-        self.dim = vector_dimension
+    def __init__(self, dim):
+        super().__init__()
+        self.dim = dim
 
     def getClusterRepresentation(self, vector_list, param_map):
         weighted_list = param_map["weights"]
@@ -47,3 +47,17 @@ class WeightedCentroid(AbstractClusterEmbedding):
             emb /= len(vector_list)
         return emb
 
+class VectorSum(AbstractClusterEmbedding):
+    def __init__(self, dim):
+        super().__init__()
+        self.dim = dim
+
+    def getClusterRepresentation(self, vector_list, param_map):
+        if "weights" in param_map:
+            weighted_list = param_map["weights"]
+        else:
+            weighted_list = [1] * len(vector_list)
+        emb = np.zeros(self.dim)
+        for i, vec in enumerate(vector_list):
+            emb += vec * weighted_list[i]
+        return emb

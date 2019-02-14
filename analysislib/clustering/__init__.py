@@ -1,9 +1,11 @@
-from analysislib.clustering.ClusterEmbedding import  WeightedCentroid, Centroid
+from analysislib.clustering.ClusterEmbedding import WeightedCentroid, Centroid, VectorSum
 
 def getClusterEmbeddingFromPoints(method_name="centroid", param_map={}):
     if method_name == "weightedCentroid":
-        return WeightedCentroid(param_map)
-    return Centroid(param_map)
+        return WeightedCentroid(**param_map)
+    elif method_name == "vectorSum":
+        return VectorSum(**param_map)
+    return Centroid(**param_map)
 
 def getClustering(method_name="k-mean", param_map={}):
     if method_name == "k-mean":

@@ -29,13 +29,18 @@ class GridSearch:
         return None
 
     def __traverse_grid_2_param(self, cost_function, args):
+        full_map = {}
         param_a = self.param_min[0]
-        param_b = self.param_min[1]
         while param_a <= self.param_max[0]:
+            if str(param_a) not in full_map:
+                full_map[str(param_a)] = {}
+            param_b = self.param_min[1]
             while param_b <= self.param_max[1]:
-                cost_function([param_a, param_b], args)
+                full_map[str(param_a)][str(param_b)] = cost_function([param_a, param_b], args)
                 param_b += self.step_size
+                print(param_a, param_b)
             param_a += self.step_size
+        return full_map
 
     def __2_paramterter_maximum(self, cost_function, args):
         param_a = self.param_min[0]
