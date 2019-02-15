@@ -52,7 +52,7 @@ class VectorSum(AbstractClusterEmbedding):
         super().__init__()
         self.dim = dim
 
-    def getClusterRepresentation(self, vector_list, param_map):
+    def getClusterRepresentation(self, vector_list, param_map={}):
         if "weights" in param_map:
             weighted_list = param_map["weights"]
         else:
