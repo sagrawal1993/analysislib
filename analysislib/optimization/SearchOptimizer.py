@@ -75,15 +75,17 @@ class GridSearch:
         max_a = param_a
         max_b = param_b
         while param_a <= self.param_max[0]:
+            param_b = self.param_min[1]
             while param_b <= self.param_max[1]:
                 value = cost_function([param_a, param_b], args)
                 if value > max_value:
                     max_value = value
                     max_a = param_a
                     max_b = param_b
+                    print(max_a, max_b, max_value)
                 param_b += self.step_size
             param_a += self.step_size
-        return (max_a, max_b, value)
+        return (max_a, max_b, max_value)
 
     def __2_paramterter_minimum(self, cost_function, args):
         param_a = self.param_min[0]
@@ -92,6 +94,7 @@ class GridSearch:
         min_a = param_a
         min_b = param_b
         while param_a <= self.param_max[0]:
+            param_b = self.param_min[1]
             while param_b <= self.param_max[1]:
                 value = cost_function([param_a, param_b], args)
                 if value < min_value:
@@ -100,7 +103,7 @@ class GridSearch:
                     min_b = param_b
                 param_b += self.step_size
             param_a += self.step_size
-        return (min_a, min_b, value)
+        return (min_a, min_b, min_value)
 
 
     def minimize(self, cost_function, args):
