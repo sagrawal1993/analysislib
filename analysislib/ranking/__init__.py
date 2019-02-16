@@ -1,9 +1,13 @@
+
 def getRanker(method_name, param_map={}):
+    if method_name == "lambdaMART":
+        from analysislib.ranking.LambdaMART import LambdaMART
+        return LambdaMART(**param_map)
     return None
 
 class AbstractRanker:
-    def fit(self, vector_list, score):
+    def fit(self, vector_list, score, qid_list):
         pass
 
-    def transform(self, vector_list):
+    def predict(self, vector_list):
         pass
